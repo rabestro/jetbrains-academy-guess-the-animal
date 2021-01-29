@@ -33,7 +33,7 @@ public final class Application extends TextInterface implements Runnable {
     }
 
     private void printFact(final String fact, final String animal) {
-        println(" - " + capitalize(String.format(fact, applyRules("definite", animal))));
+        println(" - " + capitalize(String.format(fact, applyRules("definite", animal))) + ".");
     }
 
 }
