@@ -53,6 +53,9 @@ public class TextInterface {
         return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
     }
 
+    public void println() {
+        System.out.println();
+    }
 
     public void println(final String key, final Object... args) {
         this.print(key, args);
