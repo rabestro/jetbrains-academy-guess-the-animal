@@ -3,13 +3,7 @@ package animals;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -138,6 +132,10 @@ public class TextInterface {
 
         this.println(pickMessage(messages.toArray(String[]::new)));
         log.exiting(TextInterface.class.getName(), messageName, messages);
+    }
+
+    public static String capitalize(final String data) {
+        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
     }
 
 }
