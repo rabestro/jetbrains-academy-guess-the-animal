@@ -12,10 +12,11 @@ public class Application extends TextInterface implements Runnable {
         var firstAnimal = askAnimal("animal.first");
         var secondAnimal = askAnimal("animal.second");
 
-        println("game.specifyFact");
-        println("game.statement");
-
+        var statement = askStatement(firstAnimal, secondAnimal);
         var answer = askYesNo("game.isCorrect", firstAnimal);
+
+        println("game.learned");
+        println("game.distinguish");
 
         print("animal.nice");
         println("animal.learnedMuch");
@@ -32,6 +33,19 @@ public class Application extends TextInterface implements Runnable {
                 return applyRules("animal", answer);
             }
             println("animal.error");
+        }
+    }
+
+    public String askStatement(final String first, final String second) {
+        while (true) {
+            println("game.specifyFact", first, second);
+            println("game.statement");
+
+            final var answer = readToLowerCase();
+            if (PATTERNS.get("isCorrectStatement").matcher(answer).matches()) {
+                return applyRules("statement", answer);
+            }
+            println("game.example");
         }
     }
 
