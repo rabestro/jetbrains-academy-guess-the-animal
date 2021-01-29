@@ -12,8 +12,10 @@ public class Application extends TextInterface implements Runnable {
         var firstAnimal = askAnimal("animal.first");
         var secondAnimal = askAnimal("animal.second");
 
-        var statement = askStatement(firstAnimal, secondAnimal);
+        var positive = askStatement(firstAnimal, secondAnimal);
         var answer = askYesNo("game.isCorrect", firstAnimal);
+        var negative = applyRules("negative", positive);
+
 
         println("game.learned");
         println("game.distinguish");
