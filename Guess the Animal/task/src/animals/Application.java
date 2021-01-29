@@ -23,7 +23,7 @@ public final class Application extends TextInterface implements Runnable {
         printFact(fact1, animal1);
         printFact(fact2, animal2);
         println("game.distinguish");
-        println(capitalize(applyRules("question", positive)));
+        println(" - " + capitalize(applyRules("question", positive)));
         println();
         print("animal.nice");
         println("animal.learnedMuch");
