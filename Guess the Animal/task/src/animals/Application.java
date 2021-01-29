@@ -9,10 +9,14 @@ public class Application extends TextInterface implements Runnable {
         printConditional("greeting");
         println("animal.wantLearn");
 
-        var animal = askAnimal("animal.askFavorite");
-        var answer = askYesNo("is.it", animal);
+        var firstAnimal = askAnimal("animal.first");
+        var secondAnimal = askAnimal("animal.second");
 
-        println("answered", answer ? "Yes" : "No");
+        println("game.specifyFact");
+        println("game.statement");
+
+        var answer = askYesNo("game.isCorrect", firstAnimal);
+
         print("animal.nice");
         println("animal.learnedMuch");
         println("farewell");
