@@ -10,9 +10,9 @@ public final class Application extends TextInterface implements Runnable {
         println();
         println("animal.wantLearn");
 
-        final var animal1 = askAnimal("animal.first");
-        final var animal2 = askAnimal("animal.second");
-        final var positive = askStatement(animal1, animal2);
+        final var animal1 = ask("animal" , "first");
+        final var animal2 = ask("animal" , "second");
+        final var positive = ask("statement", animal1, animal2);
         final var isCorrect = askYesNo("game.isCorrect", animal2);
         final var negative = applyRules("negative", positive);
 
@@ -34,30 +34,6 @@ public final class Application extends TextInterface implements Runnable {
 
     private void printFact(final String fact, final String animal) {
         println(" - " + capitalize(String.format(fact, applyRules("definite", animal))));
-    }
-
-    public String askAnimal(final String prompt) {
-        while (true) {
-            println(prompt);
-            final var answer = readToLowerCase();
-            if (PATTERNS.get("isCorrectAnimal").matcher(answer).matches()) {
-                return applyRules("animal", answer);
-            }
-            println("animal.error");
-        }
-    }
-
-    public String askStatement(final String first, final String second) {
-        while (true) {
-            println("game.specifyFact", first, second);
-            println("game.statement");
-
-            final var answer = readToLowerCase();
-            if (PATTERNS.get("isCorrectStatement").matcher(answer).matches()) {
-                return applyRules("statement", answer);
-            }
-            println("game.example");
-        }
     }
 
 }

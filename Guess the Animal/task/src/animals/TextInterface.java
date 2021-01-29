@@ -66,6 +66,17 @@ public class TextInterface {
         System.out.print(MessageFormat.format(getText(key), args));
     }
 
+    public String ask(final String key, final Object... args) {
+        while (true) {
+            println(key + ".prompt", args);
+            final var answer = readToLowerCase();
+            if (PATTERNS.get(key + ".isCorrect").matcher(answer).matches()) {
+                return applyRules(key, answer);
+            }
+            println(key + ".error");
+        }
+    }
+
     public boolean askYesNo(final String key, final Object... args) {
         println(key, args);
         while (true) {
