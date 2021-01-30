@@ -21,7 +21,7 @@ public class Scenario {
     Scenario(String name) throws IOException {
         data = new YAMLMapper().readValue(new File("test/" + name + ".data.yaml"), String[][].class);
         script = new YAMLMapper().readValue(new File("test/" + name + ".script.yaml"), String[][].class);
-        System.out.println("Scenario " + name + " is started.");
+        System.out.println("Scenario '" + name + "' is started.");
         System.out.println();
     }
 
