@@ -7,7 +7,6 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.logging.Logger;
@@ -35,9 +34,10 @@ public enum StorageService {
         try {
             properties.loadFromXML(new FileInputStream("application.xml"));
         } catch (IOException e) {
-            log.severe(e.getMessage());
+            log.warning(e.getMessage());
         }
         baseName = properties.getProperty("baseName", "animals");
+        log.config(() -> "Storage file base name is " + baseName);
     }
 
     private File getFile() {
