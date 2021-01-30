@@ -27,7 +27,7 @@ public enum StorageService {
     }
 
     private File getFile() {
-        return new File("animal." + this.name().toLowerCase());
+        return new File("animals." + this.name().toLowerCase());
     }
 
     public void load(final KnowledgeTree tree) {
