@@ -15,33 +15,11 @@ public final class Application extends TextInterface implements Runnable {
         println("animal.askFavorite");
 
         final var favoriteAnimal = ask("animal", "favorite");
-        final KnowledgeTree knowledgeTree = new KnowledgeTree(new TreeNode(favoriteAnimal));
+        new Game(new KnowledgeTree(new TreeNode(favoriteAnimal))).run();
 
-        final var animal1 = ask("animal");
-
-        final var animal2 = ask("animal" , "second");
-        final var positive = ask("statement", animal1, animal2);
-        final var isCorrect = askYesNo("game.isCorrect", animal2);
-        final var negative = applyRules("negative", positive);
-
-        final var fact1 = applyRules("animalFact", isCorrect ? negative : positive);
-        final var fact2 = applyRules("animalFact", isCorrect ? positive : negative);
-
-        println("game.learned");
-        printFact(fact1, animal1);
-        printFact(fact2, animal2);
-        println("game.distinguish");
-        println(" - " + capitalize(applyRules("question", positive)));
-        println();
-        print("animal.nice");
-        println("animal.learnedMuch");
         println("farewell");
 
         log.exiting(Application.class.getName(), "run");
-    }
-
-    private void printFact(final String fact, final String animal) {
-        println(" - " + capitalize(String.format(fact, applyRules("definite", animal))) + ".");
     }
 
 }

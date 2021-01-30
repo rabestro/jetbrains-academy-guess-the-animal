@@ -25,11 +25,15 @@ public class TreeNode {
         return data;
     }
 
+    public void setData(final String data) {
+        this.data = data;
+    }
+
     public TreeNode getRight() {
         return right;
     }
 
-    public void setRight(TreeNode right) {
+    public void setRight(final TreeNode right) {
         this.right = right;
     }
 
@@ -37,7 +41,7 @@ public class TreeNode {
         return left;
     }
 
-    public void setLeft(TreeNode left) {
+    public void setLeft(final TreeNode left) {
         this.left = left;
     }
 }
