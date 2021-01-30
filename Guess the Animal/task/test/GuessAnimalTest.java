@@ -1,70 +1,50 @@
-import animals.Main;
-import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
+import org.hyperskill.hstest.dynamic.DynamicTest;
 import org.hyperskill.hstest.stage.StageTest;
 import org.hyperskill.hstest.testcase.CheckResult;
 import org.hyperskill.hstest.testing.TestedProgram;
 
 import java.io.IOException;
-import java.util.HashSet;
+import java.util.stream.Stream;
 
 public class GuessAnimalTest extends StageTest<String> {
-    private static final int TEST_RANDOM_RESPONSES = 10;
+    private static final int RUNS_COUNT = 10;
 
-    public GuessAnimalTest() {
-        super(Main.class);
+    final String[] script = new String[]{
+            "animals",
+            "positive-answers",
+            "negative-answers",
+            "unclear-answers"
+    };
+
+    @DynamicTest(data = "script")
+    CheckResult runScripts(final String script) throws IOException {
+        return new Scenario(script).check();
     }
 
-    @DynamicTestingMethod
-    CheckResult testAnimals() throws IOException {
-        return new Scenario("animals").check();
-    }
-
-    @DynamicTestingMethod
-    CheckResult negativeAnswers() throws IOException {
-        return new Scenario("negative-answers").check();
-    }
-
-    @DynamicTestingMethod
-    CheckResult positiveAnswers() throws IOException {
-        return new Scenario("positive-answers").check();
-    }
-
-    @DynamicTestingMethod
-    CheckResult unclearAnswers() throws IOException {
-        return new Scenario("unclear-answers").check();
-    }
-
-    @DynamicTestingMethod
-    CheckResult testRandomGoodbye() throws IOException {
-        final var farewell = new HashSet<String>();
-
-        for (int tries = TEST_RANDOM_RESPONSES; tries > 0; tries--) {
-            final var main = new TestedProgram(Main.class);
+    @DynamicTest()
+    CheckResult testRandomFarewell() {
+        final var isRandom = Stream.generate(() -> {
+            final var main = new TestedProgram();
             main.start();
-            farewell.add(main.execute("cat\nyes\n"));
-        }
+            return main.execute("cat\nyes\n");
+        }).limit(RUNS_COUNT).distinct().count() > 1;
 
-        if (farewell.size() > 1) {
-            return CheckResult.correct();
-        } else {
-            return CheckResult.wrong("You program should use different ways to farewell the user.");
-        }
+        return isRandom
+                ? CheckResult.correct()
+                : CheckResult.wrong("You program should use different ways to farewell the user.");
     }
 
-    @DynamicTestingMethod
-    CheckResult testRandomYesNoClarification() throws IOException {
-        final var clarification = new HashSet<String>();
-
-        for (int tries = TEST_RANDOM_RESPONSES; tries > 0; tries--) {
-            final var main = new TestedProgram(Main.class);
+    @DynamicTest
+    CheckResult testRandomYesNoClarification() {
+        final var isRandom = Stream.generate(() -> {
+            final var main = new TestedProgram();
             main.start();
-            clarification.add(main.execute("cat\n#\n"));
-        }
+            return main.execute("cat\n#\n");
+        }).limit(RUNS_COUNT).distinct().count() > 1;
 
-        if (clarification.size() > 1) {
-            return CheckResult.correct();
-        } else {
-            return CheckResult.wrong("You program should use different ways to ask clarification question.");
-        }
+        return isRandom
+                ? CheckResult.correct()
+                : CheckResult.wrong("You program should use different ways to ask clarification question.");
+
     }
 }
