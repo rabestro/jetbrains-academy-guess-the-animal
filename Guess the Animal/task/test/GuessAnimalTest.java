@@ -23,28 +23,23 @@ public class GuessAnimalTest extends StageTest<String> {
 
     @DynamicTest()
     CheckResult testRandomFarewell() {
-        final var isRandom = Stream.generate(() -> {
-            final var main = new TestedProgram();
-            main.start();
-            return main.execute("cat\nyes\n");
-        }).limit(RUNS_COUNT).distinct().count() > 1;
-
-        return isRandom
-                ? CheckResult.correct()
-                : CheckResult.wrong("You program should use different ways to farewell the user.");
+        return checkRandom("cat\nyes\n",
+                "You program should use different ways to farewell the user.");
     }
 
     @DynamicTest
     CheckResult testRandomYesNoClarification() {
+        return checkRandom("cat\n#\n",
+                "You program should use different ways to ask clarification question.");
+    }
+
+    private CheckResult checkRandom(final String input, final String errorMessage) {
         final var isRandom = Stream.generate(() -> {
             final var main = new TestedProgram();
             main.start();
-            return main.execute("cat\n#\n");
+            return main.execute(input);
         }).limit(RUNS_COUNT).distinct().count() > 1;
 
-        return isRandom
-                ? CheckResult.correct()
-                : CheckResult.wrong("You program should use different ways to ask clarification question.");
-
+        return isRandom ? CheckResult.correct() : CheckResult.wrong(errorMessage);
     }
 }
