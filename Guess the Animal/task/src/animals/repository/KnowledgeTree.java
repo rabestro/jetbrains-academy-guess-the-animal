@@ -1,19 +1,20 @@
 package animals.repository;
 
+import java.util.*;
 import java.util.logging.Logger;
+
+import static animals.userinterface.TextInterface.applyRules;
+import static java.util.stream.Collectors.summarizingInt;
 
 public class KnowledgeTree {
     private static final Logger log = Logger.getLogger(KnowledgeTree.class.getName());
 
+    private final Map<String, List<String>> animals = new HashMap<>();
     private TreeNode root;
     private TreeNode current;
 
     public KnowledgeTree() {
 
-    }
-
-    public KnowledgeTree(final TreeNode root) {
-        setRoot(root);
     }
 
     public void reset() {
@@ -59,5 +60,29 @@ public class KnowledgeTree {
 
     public boolean isEmpty() {
         return root == null;
+    }
+
+    public Map<String, List<String>> getAnimals() {
+        animals.clear();
+        collectAnimals(root, new LinkedList<>());
+        return animals;
+    }
+
+    private void collectAnimals(final TreeNode node, final Deque<String> facts) {
+        if (node.isLeaf()) {
+            animals.put(node.getData(), List.copyOf(facts));
+            return;
+        }
+        final var statement = node.getData();
+        facts.add(statement);
+        collectAnimals(node.getRight(), facts);
+        facts.removeLast();
+        facts.add(applyRules("negative", statement));
+        collectAnimals(node.getLeft(), facts);
+        facts.removeLast();
+    }
+
+    public IntSummaryStatistics getStatistics() {
+        return getAnimals().values().stream().collect(summarizingInt(List::size));
     }
 }

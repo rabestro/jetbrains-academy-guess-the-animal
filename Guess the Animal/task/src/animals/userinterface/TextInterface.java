@@ -95,7 +95,7 @@ public class TextInterface {
         return scanner.nextLine().toLowerCase().trim();
     }
 
-    public String applyRules(final String rule, final String data) {
+    public static String applyRules(final String rule, final String data) {
         for (int i = 1; ; i++) {
             final var key = rule + "." + i;
             final var pattern = patterns.get(key + ".pattern");
