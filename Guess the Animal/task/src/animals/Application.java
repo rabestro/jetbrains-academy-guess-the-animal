@@ -1,18 +1,30 @@
 package animals;
 
-public class Application extends TextInterface implements Runnable {
+public final class Application extends TextInterface implements Runnable {
 
     @Override
     public void run() {
         log.entering(Application.class.getName(), "run");
 
         printConditional("greeting");
+        println();
         println("animal.wantLearn");
 
-        var animal = askAnimal("animal.askFavorite");
-        var answer = askYesNo("is.it", animal);
+        final var animal1 = ask("animal" , "first");
+        final var animal2 = ask("animal" , "second");
+        final var positive = ask("statement", animal1, animal2);
+        final var isCorrect = askYesNo("game.isCorrect", animal2);
+        final var negative = applyRules("negative", positive);
 
-        println("answered", answer ? "Yes" : "No");
+        final var fact1 = applyRules("animalFact", isCorrect ? negative : positive);
+        final var fact2 = applyRules("animalFact", isCorrect ? positive : negative);
+
+        println("game.learned");
+        printFact(fact1, animal1);
+        printFact(fact2, animal2);
+        println("game.distinguish");
+        println(" - " + capitalize(applyRules("question", positive)));
+        println();
         print("animal.nice");
         println("animal.learnedMuch");
         println("farewell");
@@ -20,15 +32,8 @@ public class Application extends TextInterface implements Runnable {
         log.exiting(Application.class.getName(), "run");
     }
 
-    public String askAnimal(final String prompt) {
-        while (true) {
-            println(prompt);
-            final var answer = readToLowerCase();
-            if (PATTERNS.get("isCorrectAnimal").matcher(answer).matches()) {
-                return applyRules("animal", answer);
-            }
-            println("animal.error");
-        }
+    private void printFact(final String fact, final String animal) {
+        println(" - " + capitalize(String.format(fact, applyRules("definite", animal))) + ".");
     }
 
 }

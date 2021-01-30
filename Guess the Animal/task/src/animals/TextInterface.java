@@ -3,13 +3,7 @@ package animals;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
-import java.util.ResourceBundle;
-import java.util.Scanner;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -59,6 +53,9 @@ public class TextInterface {
         return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
     }
 
+    public void println() {
+        System.out.println();
+    }
 
     public void println(final String key, final Object... args) {
         this.print(key, args);
@@ -67,6 +64,17 @@ public class TextInterface {
 
     public void print(final String key, final Object... args) {
         System.out.print(MessageFormat.format(getText(key), args));
+    }
+
+    public String ask(final String key, final Object... args) {
+        while (true) {
+            println(key + ".prompt", args);
+            final var answer = readToLowerCase();
+            if (PATTERNS.get(key + ".isCorrect").matcher(answer).matches()) {
+                return applyRules(key, answer);
+            }
+            println(key + ".error");
+        }
     }
 
     public boolean askYesNo(final String key, final Object... args) {
@@ -138,6 +146,10 @@ public class TextInterface {
 
         this.println(pickMessage(messages.toArray(String[]::new)));
         log.exiting(TextInterface.class.getName(), messageName, messages);
+    }
+
+    public static String capitalize(final String data) {
+        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
     }
 
 }
