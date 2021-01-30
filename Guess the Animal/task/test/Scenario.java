@@ -54,10 +54,6 @@ public class Scenario {
                                 "matches", output::matches);
 
                         final var expected = format(action[1], values);
-                        final var test = validation.get(command);
-                        if (test == null) {
-                            return wrong("Unknown command " + command);
-                        }
                         if (validation.get(command).test(expected)) {
                             continue;
                         }

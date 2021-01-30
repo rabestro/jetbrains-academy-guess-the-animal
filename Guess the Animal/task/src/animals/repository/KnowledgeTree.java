@@ -5,12 +5,15 @@ import java.util.logging.Logger;
 public class KnowledgeTree {
     private static final Logger log = Logger.getLogger(KnowledgeTree.class.getName());
 
-    private final TreeNode root;
+    private TreeNode root;
     private TreeNode current;
 
+    public KnowledgeTree() {
+
+    }
+
     public KnowledgeTree(final TreeNode root) {
-        this.root = root;
-        this.current = root;
+        setRoot(root);
     }
 
     public void reset() {
@@ -43,5 +46,18 @@ public class KnowledgeTree {
         current.setLeft(isRight ? oldAnimal : newAnimal);
 
         log.exiting(KnowledgeTree.class.getName(), "addAnimal");
+    }
+
+    public TreeNode getRoot() {
+        return root;
+    }
+
+    public void setRoot(final TreeNode root) {
+        this.root = root;
+        this.current = root;
+    }
+
+    public boolean isEmpty() {
+        return root == null;
     }
 }
