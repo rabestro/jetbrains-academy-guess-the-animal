@@ -18,10 +18,12 @@ public final class Game extends TextInterface implements Runnable {
             readToLowerCase();
 
             while (db.isStatement()) {
-                db.next(askYesNo(applyRules("question", db.getCurrent().getData())));
+                db.next(askYesNo("question"));
             }
 
-            if (!askYesNo(applyRules("guessAnimal", db.getCurrent().getData()))) {
+            if (askYesNo("guessAnimal")) {
+                println("game.win");
+            } else {
                 giveUp();
             }
 
@@ -52,6 +54,11 @@ public final class Game extends TextInterface implements Runnable {
         println();
         print("animal.nice");
         println("animal.learnedMuch");
+    }
+
+    @Override
+    public boolean askYesNo(final String key, final Object... args) {
+        return super.askYesNo(capitalize(applyRules(key, db.getCurrent().getData())));
     }
 
     private void printFact(final String fact, final String animal) {
