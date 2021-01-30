@@ -6,7 +6,10 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.logging.Logger;
 
 public enum StorageService {
@@ -15,6 +18,7 @@ public enum StorageService {
     XML(new XmlMapper());
 
     private static final Logger log = Logger.getLogger(StorageService.class.getName());
+    private static final String baseName;
 
     private final ObjectMapper objectMapper;
 
@@ -26,8 +30,18 @@ public enum StorageService {
         return StorageService.valueOf(type.toUpperCase());
     }
 
+    static {
+        final Properties properties = new Properties();
+        try {
+            properties.loadFromXML(new FileInputStream("application.xml"));
+        } catch (IOException e) {
+            log.severe(e.getMessage());
+        }
+        baseName = properties.getProperty("baseName", "animals");
+    }
+
     private File getFile() {
-        return new File("animals." + this.name().toLowerCase());
+        return new File(baseName + "." + this.name().toLowerCase());
     }
 
     public void load(final KnowledgeTree tree) {
