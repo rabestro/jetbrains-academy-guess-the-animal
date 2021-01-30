@@ -1,6 +1,6 @@
 package animals.userinterface;
 
-import animals.domain.KnowledgeTree;
+import animals.repository.KnowledgeTree;
 
 public final class Game extends TextInterface implements Runnable {
     private final KnowledgeTree db;
@@ -16,26 +16,26 @@ public final class Game extends TextInterface implements Runnable {
             println("game.think");
             println("game.enter");
             readToLowerCase();
+            db.reset();
 
             while (db.isStatement()) {
-                db.next(askYesNo());
+                db.next(askQuestion());
             }
 
-            if (askYesNo()) {
+            if (askQuestion()) {
                 println("game.win");
             } else {
                 giveUp();
             }
 
-            db.reset();
             print("game.thanks");
 
-        } while (super.askYesNo("game.again"));
+        } while (askYesNo("game.again"));
     }
 
     private void giveUp() {
         println("game.giveUp");
-        final var animal = ask("animal", "guessed");
+        final var animal = ask("animal");
         final var guessedAnimal = db.getCurrent().getData();
         final var statement = ask("statement", guessedAnimal, animal);
         final var isCorrect = askYesNo("game.isCorrect", animal);
@@ -56,15 +56,11 @@ public final class Game extends TextInterface implements Runnable {
         println("animal.learnedMuch");
     }
 
-    private boolean askQuestion(final String key) {
-        return super.askYesNo(capitalize(applyRules(key, db.getCurrent().getData())));
+    private boolean askQuestion() {
+        final var question = applyRules(db.isAnimal() ? "guessAnimal" : "question", db.getCurrent().getData());
+        return askYesNo(capitalize(question));
     }
 
-    private boolean askYesNo() {
-        return super.askYesNo(capitalize(
-                applyRules(db.isAnimal() ? "guessAnimal" : "question", db.getCurrent().getData()))
-        );
-    }
     private void printFact(final String fact, final String animal) {
         println(" - " + capitalize(String.format(fact, applyRules("definite", animal))) + ".");
     }

@@ -1,7 +1,7 @@
 package animals.userinterface;
 
-import animals.domain.KnowledgeTree;
-import animals.domain.TreeNode;
+import animals.repository.KnowledgeTree;
+import animals.repository.TreeNode;
 
 public final class Application extends TextInterface implements Runnable {
 
@@ -13,9 +13,9 @@ public final class Application extends TextInterface implements Runnable {
         println();
         println("animal.wantLearn");
         println("animal.askFavorite");
+        println();
 
-        final var favoriteAnimal = ask("animal", "favorite");
-        new Game(new KnowledgeTree(new TreeNode(favoriteAnimal))).run();
+        new Game(new KnowledgeTree(new TreeNode(ask("animal")))).run();
 
         println("farewell");
 

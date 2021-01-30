@@ -1,4 +1,4 @@
-package animals.domain;
+package animals.repository;
 
 import java.util.logging.Logger;
 
@@ -8,7 +8,7 @@ public class KnowledgeTree {
     private final TreeNode root;
     private TreeNode current;
 
-    public KnowledgeTree(TreeNode root) {
+    public KnowledgeTree(final TreeNode root) {
         this.root = root;
         this.current = root;
     }
@@ -29,7 +29,7 @@ public class KnowledgeTree {
         return current;
     }
 
-    public void next(boolean direction) {
+    public void next(final boolean direction) {
         current = direction ? current.getRight() : current.getLeft();
     }
 

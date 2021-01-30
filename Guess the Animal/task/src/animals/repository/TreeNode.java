@@ -1,9 +1,5 @@
-package animals.domain;
+package animals.repository;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TreeNode {
     private String data;
     private TreeNode right;
@@ -16,7 +12,6 @@ public class TreeNode {
         this.data = data;
     }
 
-    @JsonIgnore
     public boolean isLeaf() {
         return left == null && right == null;
     }
