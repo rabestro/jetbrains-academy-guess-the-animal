@@ -14,19 +14,19 @@ import static java.util.stream.Collectors.toUnmodifiableMap;
 
 public class TextInterface {
     protected static final Logger log = Logger.getLogger(TextInterface.class.getName());
-    protected static final Map<String, Pattern> PATTERNS;
 
     private static final Pattern MESSAGE_DELIMITER = Pattern.compile("\\f");
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
+    private static final Map<String, Pattern> patterns;
     private static final ResourceBundle rules;
 
     static {
         rules = ResourceBundle.getBundle("patterns");
-        PATTERNS = rules.keySet().stream()
+        patterns = rules.keySet().stream()
                 .filter(key -> !key.endsWith(".replace"))
                 .collect(toUnmodifiableMap(key -> key, key -> Pattern.compile(rules.getString(key))));
-        log.config(PATTERNS::toString);
+        log.config(patterns::toString);
     }
 
     private final ResourceBundle resourceBundle;
@@ -70,7 +70,7 @@ public class TextInterface {
         while (true) {
             println(key + ".prompt", args);
             final var answer = readToLowerCase();
-            if (PATTERNS.get(key + ".isCorrect").matcher(answer).matches()) {
+            if (patterns.get(key + ".isCorrect").matcher(answer).matches()) {
                 return applyRules(key, answer);
             }
             println(key + ".error");
@@ -81,10 +81,10 @@ public class TextInterface {
         println(key, args);
         while (true) {
             final var answer = readToLowerCase();
-            if (PATTERNS.get("isPositiveAnswer").matcher(answer).matches()) {
+            if (patterns.get("isPositiveAnswer").matcher(answer).matches()) {
                 return true;
             }
-            if (PATTERNS.get("isNegativeAnswer").matcher(answer).matches()) {
+            if (patterns.get("isNegativeAnswer").matcher(answer).matches()) {
                 return false;
             }
             println("ask.again");
@@ -98,7 +98,7 @@ public class TextInterface {
     public String applyRules(final String rule, final String data) {
         for (int i = 1; ; i++) {
             final var key = rule + "." + i;
-            final var pattern = PATTERNS.get(key + ".pattern");
+            final var pattern = patterns.get(key + ".pattern");
 
             if (isNull(pattern)) {
                 return data;
