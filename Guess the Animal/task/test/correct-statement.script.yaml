@@ -13,5 +13,5 @@
 #
 - [input, "{0}"]
 - - contains
-  - Is it correct for a dog?
+  - correct for a dog?
   - The program should clarify if the statement is correct for a dog.

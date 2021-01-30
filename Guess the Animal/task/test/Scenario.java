@@ -1,4 +1,3 @@
-import animals.Main;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.hyperskill.hstest.testcase.CheckResult;
 import org.hyperskill.hstest.testing.TestedProgram;
@@ -22,14 +21,17 @@ public class Scenario {
     Scenario(String name) throws IOException {
         data = new YAMLMapper().readValue(new File("test/" + name + ".data.yaml"), String[][].class);
         script = new YAMLMapper().readValue(new File("test/" + name + ".script.yaml"), String[][].class);
+        System.out.println("Scenario " + name + " is started.");
+        System.out.println();
     }
 
     CheckResult check() {
         for (var values : data) {
             for (var action : script) {
-                switch (action[0]) {
+                final var command = action[0];
+                switch (command) {
                     case "start":
-                        main = new TestedProgram(Main.class);
+                        main = new TestedProgram();
                         output = action.length == 1 ? main.start()
                                 : main.start(format(action[1], values).split(" "));
                         continue;
@@ -47,8 +49,13 @@ public class Scenario {
                                 "file delete", file -> new File(file).delete(),
                                 "matches", output::matches);
 
-                        if (validation.get(action[0]).test(format(action[1], values))) continue;
-                        return wrong(format(action[2], values));
+                        final var expected = format(action[1], values);
+                        if (validation.get(action[0]).test(expected)) {
+                            continue;
+                        }
+                        final var feedback = format(action[2], values) + System.lineSeparator()
+                                + "Expected " + command + ": \"" + expected + "\"";
+                        return wrong(feedback);
                 }
             }
         }
