@@ -1,5 +1,8 @@
 package animals.userinterface;
 
+import animals.domain.KnowledgeTree;
+import animals.domain.TreeNode;
+
 public final class Application extends TextInterface implements Runnable {
 
     @Override
@@ -9,8 +12,13 @@ public final class Application extends TextInterface implements Runnable {
         printConditional("greeting");
         println();
         println("animal.wantLearn");
+        println("animal.askFavorite");
 
-        final var animal1 = ask("animal" , "first");
+        final var favoriteAnimal = ask("animal", "favorite");
+        final KnowledgeTree knowledgeTree = new KnowledgeTree(new TreeNode(favoriteAnimal));
+
+        final var animal1 = ask("animal");
+
         final var animal2 = ask("animal" , "second");
         final var positive = ask("statement", animal1, animal2);
         final var isCorrect = askYesNo("game.isCorrect", animal2);
