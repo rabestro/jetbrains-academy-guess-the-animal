@@ -1,4 +1,3 @@
-import animals.Main;
 import com.fasterxml.jackson.dataformat.yaml.YAMLMapper;
 import org.hyperskill.hstest.testcase.CheckResult;
 import org.hyperskill.hstest.testing.TestedProgram;
