@@ -1,5 +1,7 @@
 package animals;
 
+import animals.userinterface.Application;
+
 import java.util.logging.Logger;
 
 public class Main {

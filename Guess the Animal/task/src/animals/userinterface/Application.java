@@ -1,4 +1,4 @@
-package animals;
+package animals.userinterface;
 
 public final class Application extends TextInterface implements Runnable {
 
