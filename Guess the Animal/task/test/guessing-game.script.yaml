@@ -42,7 +42,7 @@
 
 - - contains
   - I give up. What animal do you have in mind?
-  - If the program can’t guess the animal, it must give up.
+  - If the program can't guess the animal, it must give up.
 
 - [input, dog] # Of course, our second animal is a dog!
 

@@ -1,21 +1,34 @@
-import org.hyperskill.hstest.dynamic.DynamicTest;
+import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
 import org.hyperskill.hstest.stage.StageTest;
 import org.hyperskill.hstest.testcase.CheckResult;
 
 import java.io.IOException;
 
-public class GuessAnimalTest extends StageTest {
-    final String[] script = new String[]{
-            "the-first-question",
-            "positive-answers",
-            "negative-answers",
-            "unclear-answers",
-            "guessing-game"
-    };
+public class GuessAnimalTest extends StageTest<String> {
 
-    @DynamicTest(data = "script")
-    CheckResult runScripts(final String script) throws IOException {
-        return new Scenario(script).check();
+    @DynamicTestingMethod
+    CheckResult theFirstQuestion() throws IOException {
+        return new Scenario("the-first-question").check();
+    }
+
+    @DynamicTestingMethod
+    CheckResult positiveAnswer() throws IOException {
+        return new Scenario("positive-answers").check();
+    }
+
+    @DynamicTestingMethod
+    CheckResult negativeAnswer() throws IOException {
+        return new Scenario("negative-answers").check();
+    }
+
+    @DynamicTestingMethod
+    CheckResult incorrectAnswer() throws IOException {
+        return new Scenario("unclear-answers").check();
+    }
+
+    @DynamicTestingMethod
+    CheckResult guessingGame() throws IOException {
+        return new Scenario("guessing-game").check();
     }
 
 }
