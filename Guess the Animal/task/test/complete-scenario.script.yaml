@@ -12,7 +12,7 @@
   - The program should asks the user for a fact
 - [input, "{4}"]
 - - contains
-  - "Is it correct for {3}?"
+  - "correct for {3}?"
   - "The program should clarify if the statement is correct for {3}."
 #
 # Here the user unclear answer and the program should ask again
