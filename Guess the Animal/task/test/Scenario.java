@@ -23,7 +23,7 @@ public class Scenario {
     Scenario(String name) throws IOException {
         data = new YAMLMapper().readValue(new File("test/" + name + ".data.yaml"), String[][].class);
         script = new YAMLMapper().readValue(new File("test/" + name + ".script.yaml"), String[][].class);
-        System.out.println("Scenario " + name + " is started.");
+        System.out.println("Scenario '" + name + "' is started.");
     }
 
     CheckResult check() {
@@ -32,7 +32,7 @@ public class Scenario {
                 final var command = action[0];
                 switch (command) {
                     case "start":
-                        main = new TestedProgram(Main.class);
+                        main = new TestedProgram();
                         output = action.length == 1 ? main.start()
                                 : main.start(format(action[1], values).split(" "));
                         continue;
@@ -52,8 +52,12 @@ public class Scenario {
                                 "matches", output::matches);
 
                         final var expected = format(action[1], values);
-                        if (validation.get(command).test(expected)) continue;
-                        final var feedback = format(action[2], values) + ". Expected " + command + ": " + expected;
+                        if (validation.get(command).test(expected)) {
+                            continue;
+                        }
+                        final var feedback = format(action[2], values) + System.lineSeparator()
+                                + "Expected " + command + ": \"" + expected + "\"" + System.lineSeparator()
+                                + "Actual data is: \"" + output + "\".";
                         return wrong(feedback);
                 }
             }
