@@ -10,7 +10,7 @@
   - When no Knwoledge Tree is created yet the program should ask for a favourite animals at first.
 - [input, cat]
 - - contains
-  - Welcome to the animals expert system
+  - Welcome to the animal
   - After entering the favourite animal the program should welcom the user and represent itself as an expert system
 
 #
@@ -28,7 +28,7 @@
   - You think of an animal, and I guess it.
   - The program should asks the user to think of an animal
 - - contains
-  - Press enter when you're ready.
+  - Press enter when you
   - The computer should make a pause before the game.
 - [input, ""]
 
@@ -100,8 +100,8 @@
 - - not contains
   - Which animal do you like most?
   - If the tree of knowledge exists, then the program should not ask the user about his favorite animal.
-- - contains
-  - Welcome to the animals expert system
+- - find
+  - Welcome to the animal(.s)? expert system
   - The program should immediately greet the user after starting.
 #
 # Start the menu
