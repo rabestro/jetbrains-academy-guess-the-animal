@@ -16,14 +16,6 @@ public final class TreeServices extends TextInterface {
         this.knowledgeTree = knowledgeTree;
     }
 
-    void listAnimals() {
-        println("list.animals");
-        getAnimals().keySet().stream()
-                .map(animal -> applyRules("animalName", animal))
-                .sorted()
-                .forEach(name -> println("list.print", name));
-    }
-
     void statistics() {
         final var stats = getStatistics();
         println("tree.stats.title");
@@ -36,10 +28,15 @@ public final class TreeServices extends TextInterface {
         println("tree.stats.average", stats.getAverage());
     }
 
+    private IntSummaryStatistics getStatistics() {
+        return getAnimals().values().stream().collect(summarizingInt(List::size));
+    }
 
     void list() {
         println("tree.list.animals");
-        getAnimals().forEach((animal, facts) -> printf("tree.list.printf", animal, facts.size()));
+        getAnimals().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> printf("tree.list.printf", entry.getKey(), entry.getValue().size()));
     }
 
     void search() {
@@ -102,8 +99,5 @@ public final class TreeServices extends TextInterface {
         facts.removeLast();
     }
 
-    private IntSummaryStatistics getStatistics() {
-        return getAnimals().values().stream().collect(summarizingInt(List::size));
-    }
 
 }
