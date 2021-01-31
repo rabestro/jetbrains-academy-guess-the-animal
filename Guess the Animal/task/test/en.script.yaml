@@ -68,7 +68,7 @@
   - can it climb trees?
   - After the first game, the starting question should be the question of fact.
 - [input, yes]
-- [contains, "Is it a cat?", "The program must assume that the animal is a cat."]
+- [contains, "is it a cat?", "The program must assume that the animal is a cat."]
 - - input
   - |
     no
@@ -138,7 +138,7 @@
 # Check the knowledge tree statistics
 #
 - [input, "4"]
-- [contains, "Knowledge Tree", "The header for the table must be printed"]
+- [contains, "knowledge tree", "The header for the table must be printed"]
 
 - - find
   - (?i)root node.*It can climb trees
