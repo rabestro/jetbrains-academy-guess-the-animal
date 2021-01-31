@@ -18,6 +18,8 @@ public enum StorageService {
 
     private static final Logger log = Logger.getLogger(StorageService.class.getName());
     private static final String baseName;
+    private static final StorageService defaultService;
+    private static final String DEFAULT_TYPE = "yaml";
 
     static {
         final Properties properties = new Properties();
@@ -27,6 +29,7 @@ public enum StorageService {
             log.warning(e.getMessage());
         }
         baseName = properties.getProperty("baseName", "animals");
+        defaultService = of(properties.getProperty("type", DEFAULT_TYPE));
         log.config(() -> "Storage file base name is " + baseName);
     }
 
@@ -38,6 +41,10 @@ public enum StorageService {
 
     public static StorageService of(final String type) {
         return StorageService.valueOf(type.toUpperCase());
+    }
+
+    public static StorageService getDefaultService() {
+        return defaultService;
     }
 
     private File getFile() {

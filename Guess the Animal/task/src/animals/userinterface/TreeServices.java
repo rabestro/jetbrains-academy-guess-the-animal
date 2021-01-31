@@ -28,6 +28,10 @@ public final class TreeServices extends TextInterface {
         println("tree.stats.average", stats.getAverage());
     }
 
+    private IntSummaryStatistics getStatistics() {
+        return getAnimals().values().stream().collect(summarizingInt(List::size));
+    }
+
     void list() {
         println("tree.list.animals");
         getAnimals().entrySet().stream()
@@ -95,8 +99,5 @@ public final class TreeServices extends TextInterface {
         facts.removeLast();
     }
 
-    private IntSummaryStatistics getStatistics() {
-        return getAnimals().values().stream().collect(summarizingInt(List::size));
-    }
 
 }
