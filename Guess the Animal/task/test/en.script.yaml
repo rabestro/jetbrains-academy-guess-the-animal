@@ -4,13 +4,11 @@
 ---
 - [start, "-type {0}"] # We will test three different file formats: JSON, YAML, XML
 - - contains
-  - |
-    I want to learn about animals.
-    Which animal do you like most?
+  - which animal
   - When no Knwoledge Tree is created yet the program should ask for a favourite animals at first.
 - [input, cat]
 - - contains
-  - Welcome to the animal
+  - welcome to the animal
   - After entering the favourite animal the program should welcom the user and represent itself as an expert system
 
 #
@@ -25,10 +23,10 @@
 #
 - [input, 1]
 - - contains
-  - You think of an animal, and I guess it.
+  - you think of an animal, and i guess it.
   - The program should asks the user to think of an animal
 - - contains
-  - Press enter when you
+  - press enter
   - The computer should make a pause before the game.
 - [input, ""]
 
@@ -36,29 +34,29 @@
 # After user press Enter the game started!
 #
 - - contains
-  - Is it a cat?
+  - is it a cat?
   - The very first question in the very first game should undoubtedly be about a beloved animal.
 - [input, No] # We think of about other animal, not about the cat
 - - contains
-  - I give up. What animal do you have in mind?
+  - i give up
   - If the program cannot guess the animal, it must give up.
 - [input, dog] # Of course, our second animal is a dog!
 - - contains
-  - Specify a fact that distinguishes a cat from a dog
+  - distinguishes
   - The program should find out how one animal differs from another.
 - - input
   - it can climb trees
-- - contains
-  - Is the statement correct for a dog?
+- - find
+  - is .+ correct for a dog?
   - The program should clarify if the statement is correct for a dog.
 - [input, no]
 
 - - contains
-  - "The cat can climb trees"
+  - "cat can climb trees"
   - The program must generate the correct fact for the first animal.
 
 - - contains
-  - "The dog "
+  - "the dog "
   - The program must generate the correct fact for the second animal.
 
 - - matches
@@ -67,7 +65,7 @@
 - [input, yes] # Yes, we will play once again
 - [input, ""] # Press ENTER
 - - contains
-  - Can it climb trees?
+  - can it climb trees?
   - After the first game, the starting question should be the question of fact.
 - [input, yes]
 - [contains, "Is it a cat?", "The program must assume that the animal is a cat."]
@@ -98,10 +96,10 @@
 #
 - [start, "-type {0}"]
 - - not contains
-  - Which animal do you like most?
+  - which animal do you like most?
   - If the tree of knowledge exists, then the program should not ask the user about his favorite animal.
 - - find
-  - Welcome to the animal(.s)? expert system
+  - welcome to the animal(.s)? expert system
   - The program should immediately greet the user after starting.
 #
 # Start the menu
@@ -122,18 +120,18 @@
 # Check the facts about the animal
 #
 - [input, "3"]
-- - contains
-  - Enter the animal
+- - find
+  - enter.* animal
   - The program should ask the user to enter the name of the animal
 - [input, lynx]
 - - contains
-  - Facts about the lynx
+  - facts about the lynx
   - The program must find the animal that is in the knowledge tree.
 - - contains
-  - It can climb trees
+  - it can climb trees
   - The program did not print the first fact about the animal
 - - contains
-  - It is living in the forest
+  - it is living in the forest
   - The program did not print the second fact about the animal
 
 #
