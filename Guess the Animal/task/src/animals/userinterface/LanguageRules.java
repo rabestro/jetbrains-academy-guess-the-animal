@@ -18,7 +18,7 @@ public abstract class LanguageRules {
                 .collect(toUnmodifiableMap(key -> key, key -> Pattern.compile(rules.getString(key))));
     }
 
-    public static String applyRules(final String rule, final String data) {
+    protected static String applyRules(final String rule, final String data) {
         for (int i = 1; ; i++) {
             final var key = rule + "." + i;
             final var pattern = patterns.get(key + ".pattern");
@@ -33,7 +33,7 @@ public abstract class LanguageRules {
         }
     }
 
-    public boolean is(final String key, final String data) {
+    protected boolean is(final String key, final String data) {
         return patterns.get(key + ".isCorrect").matcher(data).matches();
     }
 }
