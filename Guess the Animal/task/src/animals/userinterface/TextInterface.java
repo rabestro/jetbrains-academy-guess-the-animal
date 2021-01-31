@@ -10,26 +10,15 @@ import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static java.util.Objects.isNull;
-import static java.util.stream.Collectors.toUnmodifiableMap;
 
-public class TextInterface {
+public class TextInterface extends LanguageRules {
     protected static final Logger log = Logger.getLogger(TextInterface.class.getName());
 
     private static final Pattern MESSAGE_DELIMITER = Pattern.compile("\\f");
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
-    private static final Map<String, Pattern> patterns;
-    private static final ResourceBundle rules;
 
-    static {
-        rules = ResourceBundle.getBundle("patterns");
-        patterns = rules.keySet().stream()
-                .filter(key -> !key.endsWith(".replace"))
-                .collect(toUnmodifiableMap(key -> key, key -> Pattern.compile(rules.getString(key))));
-        log.config(patterns::toString);
-    }
-
-    private final ResourceBundle resourceBundle;
+    protected final ResourceBundle resourceBundle;
 
     public TextInterface() {
         this(ResourceBundle.getBundle("messages"));
@@ -43,14 +32,8 @@ public class TextInterface {
         return messages[random.nextInt(messages.length)];
     }
 
-    private String getText(final String key) {
-        if (isNull(resourceBundle) || !resourceBundle.containsKey(key)) {
-            return key;
-        }
-        if (resourceBundle.getObject(key) instanceof String[]) {
-            return pickMessage(resourceBundle.getStringArray(key));
-        }
-        return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
+    public static String capitalize(final String data) {
+        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
     }
 
     public void println() {
@@ -66,11 +49,15 @@ public class TextInterface {
         System.out.print(MessageFormat.format(getText(key), args));
     }
 
+    public void printf(final String key, final Object... args) {
+        System.out.printf(resourceBundle.getString(key), args);
+    }
+
     public String ask(final String key, final Object... args) {
         while (true) {
             println(key + ".prompt", args);
             final var answer = readToLowerCase();
-            if (patterns.get(key + ".isCorrect").matcher(answer).matches()) {
+            if (is(key, answer)) {
                 return applyRules(key, answer);
             }
             println(key + ".error");
@@ -80,34 +67,29 @@ public class TextInterface {
     public boolean askYesNo(final String key, final Object... args) {
         println(key, args);
         while (true) {
-            final var answer = readToLowerCase();
-            if (patterns.get("isPositiveAnswer").matcher(answer).matches()) {
+            final var response = readToLowerCase();
+            if (is("positiveAnswer", response)) {
                 return true;
             }
-            if (patterns.get("isNegativeAnswer").matcher(answer).matches()) {
+            if (is("negativeAnswer", response)) {
                 return false;
             }
             println("ask.again");
         }
     }
 
-    public String readToLowerCase() {
-        return scanner.nextLine().toLowerCase().trim();
+    private String getText(final String key) {
+        if (isNull(resourceBundle) || !resourceBundle.containsKey(key)) {
+            return key;
+        }
+        if (resourceBundle.getObject(key) instanceof String[]) {
+            return pickMessage(resourceBundle.getStringArray(key));
+        }
+        return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
     }
 
-    public String applyRules(final String rule, final String data) {
-        for (int i = 1; ; i++) {
-            final var key = rule + "." + i;
-            final var pattern = patterns.get(key + ".pattern");
-
-            if (isNull(pattern)) {
-                return data;
-            }
-            final var matcher = pattern.matcher(data);
-            if (matcher.matches()) {
-                return matcher.replaceFirst(rules.getString(key + ".replace"));
-            }
-        }
+    public String readToLowerCase() {
+        return scanner.nextLine().toLowerCase().trim();
     }
 
     public void printConditional(final String messageName) {
@@ -144,12 +126,8 @@ public class TextInterface {
             messages.addAll(splitMessage.apply(messageName));
         }
 
-        this.println(pickMessage(messages.toArray(String[]::new)));
+        println(pickMessage(messages.toArray(String[]::new)));
         log.exiting(TextInterface.class.getName(), messageName, messages);
-    }
-
-    public static String capitalize(final String data) {
-        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
     }
 
 }

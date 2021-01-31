@@ -21,11 +21,11 @@
   - The program should give up
 - [input, dog]
 - - contains
-  - Specify a fact that distinguishes a cat from a dog
-  - The program should find out how one animal differs from another.
+  - Specify a fact that distinguishes a dog from a cat
+  - The program should ask a question
 - [input, It can climbs tree]
 - - contains
-  - Is the statement correct for a dog?
+  - Is the statement correct for the dog?
   - The program should clarify if the statement is correct for a dog.
 - [input, No]
 - - matches
@@ -55,7 +55,7 @@
 - - input
   - It is living in the forest
 - - contains
-  - Is the statement correct for a lynx?
+  - Is the statement correct for the lynx?
   - The program doesn't print the expected message
 - [input, Yes]
 - [input, No]

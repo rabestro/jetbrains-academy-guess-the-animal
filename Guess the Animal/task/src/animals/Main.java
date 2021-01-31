@@ -10,7 +10,7 @@ public final class Main {
 
     public static void main(String[] args) {
         log.entering(Main.class.getName(), "main", args);
-        final var type = args.length > 1 && args[0].equals("-type") ? args[1] : "json";
+        final var type = args.length > 1 && args[0].equals("-type") ? args[1] : "yaml";
 
         new Application(StorageService.of(type)).run();
 
