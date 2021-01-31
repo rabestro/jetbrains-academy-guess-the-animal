@@ -22,8 +22,7 @@ public class Scenario {
     Scenario(String name) throws IOException {
         data = new YAMLMapper().readValue(new File("test/" + name + ".data.yaml"), String[][].class);
         script = new YAMLMapper().readValue(new File("test/" + name + ".script.yaml"), String[][].class);
-        System.out.println("Scenario '" + name + "' is started.");
-        System.out.println();
+        System.out.println(name + " is started.");
     }
 
     CheckResult check() {
@@ -33,13 +32,11 @@ public class Scenario {
                 switch (command) {
                     case "start":
                         main = new TestedProgram();
-                        output = action.length == 1
-                                ? main.start()
+                        output = action.length == 1 ? main.start()
                                 : main.start(format(action[1], values).split(" "));
-                        output = output.trim();
                         continue;
                     case "input":
-                        output = main.execute(format(action[1], values)).trim();
+                        output = main.execute(format(action[1], values));
                         continue;
                     case "finish":
                         if (main.isFinished()) continue;
@@ -53,14 +50,8 @@ public class Scenario {
                                 "find", pattern -> Pattern.compile(pattern).matcher(output).find(),
                                 "matches", output::matches);
 
-                        final var expected = format(action[1], values);
-                        if (validation.get(command).test(expected)) {
-                            continue;
-                        }
-                        final var feedback = format(action[2], values) + System.lineSeparator()
-                                + "Expected " + command + ": \"" + expected + "\"" + System.lineSeparator()
-                                + "Actual data is: \"" + output + "\".";
-                        return wrong(feedback);
+                        if (validation.get(command).test(format(action[1], values))) continue;
+                        return wrong(format(action[2], values));
                 }
             }
         }
