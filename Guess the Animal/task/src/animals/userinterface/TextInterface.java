@@ -28,19 +28,6 @@ public class TextInterface extends LanguageRules {
         this.resourceBundle = bundle;
     }
 
-    private static String pickMessage(final String[] messages) {
-        return messages[random.nextInt(messages.length)];
-    }
-
-    private String getText(final String key) {
-        if (isNull(resourceBundle) || !resourceBundle.containsKey(key)) {
-            return key;
-        }
-        if (resourceBundle.getObject(key) instanceof String[]) {
-            return pickMessage(resourceBundle.getStringArray(key));
-        }
-        return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
-    }
 
     public void println() {
         System.out.println();
@@ -53,6 +40,10 @@ public class TextInterface extends LanguageRules {
 
     public void print(final String key, final Object... args) {
         System.out.print(MessageFormat.format(getText(key), args));
+    }
+
+    public void printf(final String key, final Object... args) {
+        System.out.printf(resourceBundle.getString(key), args);
     }
 
     public String ask(final String key, final Object... args) {
@@ -78,6 +69,20 @@ public class TextInterface extends LanguageRules {
             }
             println("ask.again");
         }
+    }
+
+    private String getText(final String key) {
+        if (isNull(resourceBundle) || !resourceBundle.containsKey(key)) {
+            return key;
+        }
+        if (resourceBundle.getObject(key) instanceof String[]) {
+            return pickMessage(resourceBundle.getStringArray(key));
+        }
+        return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
+    }
+
+    private static String pickMessage(final String[] messages) {
+        return messages[random.nextInt(messages.length)];
     }
 
     public String readToLowerCase() {

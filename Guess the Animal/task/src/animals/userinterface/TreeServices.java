@@ -37,26 +37,26 @@ public final class TreeServices extends TextInterface {
     }
 
 
-    public void list() {
+    void list() {
         println("tree.list.animals");
-        getAnimals().forEach((animal, facts) -> println("tree.list.printf", animal, facts.size()));
+        getAnimals().forEach((animal, facts) -> printf("tree.list.printf", animal, facts.size()));
     }
 
-    public void search() {
+    void search() {
         final var animal = ask("tree.search.animal");
         final var animalName = applyRules("animal", animal);
         final var facts = getAnimals().getOrDefault(animal, emptyList());
         println(facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts", animal);
-        facts.forEach(fact -> println("tree.search.printf", fact));
+        facts.forEach(fact -> printf("tree.search.printf", fact));
     }
 
-    public Map<String, List<String>> getAnimals() {
+    private Map<String, List<String>> getAnimals() {
         animals.clear();
         collectAnimals(knowledgeTree.getRoot(), new LinkedList<>());
         return animals;
     }
 
-    private void collectAnimals(final TreeNode node, final Deque<String> facts) {
+    private void collectAnimals(final TreeNode<String> node, final Deque<String> facts) {
         if (node.isLeaf()) {
             animals.put(node.getData(), List.copyOf(facts));
             return;
@@ -70,7 +70,7 @@ public final class TreeServices extends TextInterface {
         facts.removeLast();
     }
 
-    public IntSummaryStatistics getStatistics() {
+    private IntSummaryStatistics getStatistics() {
         return getAnimals().values().stream().collect(summarizingInt(List::size));
     }
 
