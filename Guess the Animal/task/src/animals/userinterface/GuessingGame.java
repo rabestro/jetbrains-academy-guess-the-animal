@@ -2,10 +2,10 @@ package animals.userinterface;
 
 import animals.repository.KnowledgeTree;
 
-public final class Game extends TextInterface implements Runnable {
+public final class GuessingGame extends TextInterface implements Runnable {
     private final KnowledgeTree db;
 
-    public Game(final KnowledgeTree db) {
+    public GuessingGame(final KnowledgeTree db) {
         this.db = db;
     }
 

@@ -19,17 +19,26 @@ public final class Application extends TextInterface implements Runnable {
         log.entering(Application.class.getName(), "run");
 
         printConditional("greeting");
-        println();
         storageService.load(knowledgeTree);
 
         if (knowledgeTree.isEmpty()) {
+            println();
             println("animal.wantLearn");
             println("animal.askFavorite");
             knowledgeTree.setRoot(new TreeNode(ask("animal")));
         }
-        println();
+        println("welcome");
 
-        new Game(knowledgeTree).run();
+        final var treeService = new TreeServices(knowledgeTree);
+
+        new LocalMenu()
+                .add("menu.entry.play", new GuessingGame(knowledgeTree))
+                .add("menu.entry.list", treeService::list)
+                .add("menu.entry.search", treeService::search)
+                .add("menu.entry.statistics", treeService::statistics)
+                .add("menu.entry.print", treeService::print)
+                .addExit()
+                .run();
 
         storageService.save(knowledgeTree);
         println();

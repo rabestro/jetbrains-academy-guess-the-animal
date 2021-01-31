@@ -50,6 +50,33 @@ public final class TreeServices extends TextInterface {
         facts.forEach(fact -> printf("tree.search.printf", fact));
     }
 
+/*    void deleteAnimal() {
+        if (knowledgeTree.getRoot().isLeaf()) {
+            println("delete.root");
+            return;
+        }
+        println("delete.animal");
+        final var animal = Services.askAnimal();
+        final var isOk = knowledgeTree.deleteAnimal(null, knowledgeTree.getRoot(), animal);
+        println(isOk ? "delete.successful" : "delete.fail", LanguageRules.ANIMAL_NAME.apply(animal));
+    }*/
+
+    void print() {
+        printf("%n ┄");
+        printNode(knowledgeTree.getRoot(), false, " ");
+    }
+
+    private void printNode(TreeNode<String> node, boolean isRight, String prefix) {
+        if (node.isLeaf()) {
+            printf("%s%c %s%n", prefix, isRight ? '├' : '└', node.getData());
+            return;
+        }
+        printf("%s%c %s%n", prefix, isRight ? '├' : '└', applyRules("question", node.getData()));
+        prefix += isRight ? '│' : ' ';
+        printNode(node.getRight(), true, prefix);
+        printNode(node.getLeft(), false, prefix);
+    }
+
     private Map<String, List<String>> getAnimals() {
         animals.clear();
         collectAnimals(knowledgeTree.getRoot(), new LinkedList<>());

@@ -18,7 +18,7 @@ public class TextInterface extends LanguageRules {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
 
-    private final ResourceBundle resourceBundle;
+    protected final ResourceBundle resourceBundle;
 
     public TextInterface() {
         this(ResourceBundle.getBundle("messages"));
@@ -123,7 +123,7 @@ public class TextInterface extends LanguageRules {
             messages.addAll(splitMessage.apply(messageName));
         }
 
-        this.println(pickMessage(messages.toArray(String[]::new)));
+        println(pickMessage(messages.toArray(String[]::new)));
         log.exiting(TextInterface.class.getName(), messageName, messages);
     }
 
