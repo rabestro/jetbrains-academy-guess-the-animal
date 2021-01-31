@@ -7,10 +7,12 @@ import animals.repository.TreeNode;
 public final class Application extends TextInterface implements Runnable {
     private final KnowledgeTree knowledgeTree;
     private final StorageService storageService;
+    private final TreeServices treeServices;
 
     public Application(final StorageService storageService) {
         this.storageService = storageService;
         knowledgeTree = new KnowledgeTree();
+        treeServices = new TreeServices(knowledgeTree);
     }
 
     @Override
@@ -28,15 +30,13 @@ public final class Application extends TextInterface implements Runnable {
         }
         println("welcome");
 
-        final var treeService = new TreeServices(knowledgeTree);
-
         new LocalMenu()
                 .add("menu.entry.play", new GuessingGame(knowledgeTree))
-                .add("menu.entry.list", treeService::list)
-                .add("menu.entry.search", treeService::search)
-                .add("menu.entry.statistics", treeService::statistics)
-                .add("menu.entry.print", treeService::print)
-                .add("menu.entry.delete", treeService::delete)
+                .add("menu.entry.list", treeServices::list)
+                .add("menu.entry.search", treeServices::search)
+                .add("menu.entry.statistics", treeServices::statistics)
+                .add("menu.entry.print", treeServices::print)
+                .add("menu.entry.delete", treeServices::delete)
                 .addExit()
                 .run();
 
@@ -44,6 +44,5 @@ public final class Application extends TextInterface implements Runnable {
         println("farewell");
         log.exiting(Application.class.getName(), "run");
     }
-
 
 }
