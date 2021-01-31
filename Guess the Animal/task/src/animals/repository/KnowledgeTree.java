@@ -52,4 +52,15 @@ public class KnowledgeTree {
         return root == null;
     }
 
+    public boolean deleteAnimal(final TreeNode<String> parent, final TreeNode<String> child, final String animal) {
+        if (child.isLeaf() && animal.equals(child.getData())) {
+            final var source = parent.getRight() == child ? parent.getLeft() : parent.getRight();
+            parent.setData(source.getData());
+            parent.setRight(source.getRight());
+            parent.setLeft(source.getLeft());
+            return true;
+        }
+        return !child.isLeaf() &&
+                (deleteAnimal(child, child.getRight(), animal) || deleteAnimal(child, child.getLeft(), animal));
+    }
 }
