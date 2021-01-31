@@ -84,7 +84,7 @@
   - "[Esperanto] The program should display the menu"
 - [input, "0"] # Exit from the application
 - - matches
-  - "(?si).*(Ĝis|Estis).*"
+  - "(?si).*(ĝis|estis).*"
   - "[Esperanto] How about to say goodbye to the user?"
 - [finish, "The program should finish when user exit"]
 - - file exists
@@ -135,7 +135,7 @@
 # Check the knowledge tree statistics
 #
 - [input, "4"]
-- [contains, "La statistiko", "The header for the table must be printed"]
+- [contains, "la statistiko", "The header for the table must be printed"]
 
 - - matches
   - (?is).*radika nodo.*povas surgrimpi arbon.*
