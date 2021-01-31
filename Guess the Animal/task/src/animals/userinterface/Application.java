@@ -37,11 +37,11 @@ public final class Application extends TextInterface implements Runnable {
                 .add("menu.entry.search", treeService::search)
                 .add("menu.entry.statistics", treeService::statistics)
                 .add("menu.entry.print", treeService::print)
+                .add("menu.entry.delete", treeService::delete)
                 .addExit()
                 .run();
 
         storageService.save(knowledgeTree);
-        println();
         println("farewell");
         log.exiting(Application.class.getName(), "run");
     }
