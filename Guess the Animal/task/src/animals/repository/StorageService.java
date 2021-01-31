@@ -50,7 +50,9 @@ public enum StorageService {
     }
 
     private File getFile() {
-        return new File(baseName + "." + this.name().toLowerCase());
+        final var language = System.getProperty("user.language", "en").toLowerCase();
+        final var lnName = "en".equals(language) ? "" : "_" + language;
+        return new File(baseName + lnName + "." + this.name().toLowerCase());
     }
 
     public void load(final KnowledgeTree tree) {
