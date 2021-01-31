@@ -6,7 +6,6 @@ import animals.repository.TreeNode;
 
 public final class Application extends TextInterface implements Runnable {
     private final KnowledgeTree knowledgeTree;
-
     private final StorageService storageService;
 
     public Application(final StorageService storageService) {
