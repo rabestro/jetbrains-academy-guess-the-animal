@@ -2,6 +2,8 @@ package animals.userinterface;
 
 import animals.repository.KnowledgeTree;
 
+import static java.util.Collections.emptyList;
+
 public final class TreeServices extends TextInterface {
     private final KnowledgeTree knowledgeTree;
 
@@ -27,6 +29,20 @@ public final class TreeServices extends TextInterface {
         println("tree.stats.height", stats.getMax());
         println("tree.stats.minimum", stats.getMin());
         println("tree.stats.average", stats.getAverage());
-
     }
+
+
+    public void list() {
+        println("tree.list.animals");
+        knowledgeTree.getAnimals().forEach((animal, facts) -> println("tree.list.printf", animal, facts.size()));
+    }
+
+    public void search() {
+        final var animal = ask("tree.search.animal");
+        final var animalName = applyRules("animal", animal);
+        final var facts = knowledgeTree.getAnimals().getOrDefault(animal, emptyList());
+        println(facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts", animal);
+        facts.forEach(fact -> println("tree.search.printf", fact));
+    }
+
 }
