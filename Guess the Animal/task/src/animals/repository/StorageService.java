@@ -17,9 +17,11 @@ public enum StorageService {
     XML(new XmlMapper());
 
     private static final Logger log = Logger.getLogger(StorageService.class.getName());
+
+    private static final String DEFAULT_NAME = "animals";
+    private static final String DEFAULT_TYPE = "yaml";
     private static final String baseName;
     private static final StorageService defaultService;
-    private static final String DEFAULT_TYPE = "yaml";
 
     static {
         final Properties properties = new Properties();
@@ -28,7 +30,7 @@ public enum StorageService {
         } catch (IOException e) {
             log.warning(e.getMessage());
         }
-        baseName = properties.getProperty("baseName", "animals");
+        baseName = properties.getProperty("baseName", DEFAULT_NAME);
         defaultService = of(properties.getProperty("type", DEFAULT_TYPE));
         log.config(() -> "Storage file base name is " + baseName);
     }
