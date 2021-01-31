@@ -5,12 +5,12 @@
 - [start, "-type {0}"] # We will test three different file formats: JSON, YAML, XML
 - - contains
   - |
-    Mi volas lerni pri bestoj.
-    Kiun beston vi plej ŝatas?
+    mi volas lerni pri bestoj.
+    kiun beston vi plej ŝatas?
   - "[Esperanto] When no Knwoledge Tree is created yet the program should ask for a favourite animals at first."
 - [input, kato]
 - - contains
-  - Bonvenon al la sperta sistemo de la besto!
+  - bonvenon al la sperta sistemo de la besto!
   - "[Esperanto] After entering the favourite animal the program should welcom the user and represent itself as an expert system"
 
 #
@@ -25,10 +25,10 @@
 #
 - [input, 1]
 - - contains
-  - Vi pensu pri besto, kaj mi divenos ĝin.
+  - vi pensu pri besto, kaj mi divenos ĝin.
   - "[Esperanto] The program should asks the user to think of an animal"
 - - contains
-  - Premu enen kiam vi pretas.
+  - premu enen kiam vi pretas.
   - "[Esperanto] The computer should make a pause before the game."
 - [input, ""]
 
@@ -36,29 +36,29 @@
 # After user press Enter the game started!
 #
 - - contains
-  - Ĉu ĝi estas kato?
+  - ĉu ĝi estas kato?
   - "[Esperanto] The very first question in the very first game should undoubtedly be about a beloved animal."
 - [input, ne] # We think of about other animal, not about the cat
 - - contains
-  - Mi rezignas. Kiun beston vi havas en la kapo?
+  - mi rezignas. kiun beston vi havas en la kapo?
   - "[Esperanto] If the program cannot guess the animal, it must give up."
 - [input, hundo] # Of course, our second animal is a dog!
 - - contains
-  - Indiku fakton, kiu distingas kato de hundo
+  - indiku fakton, kiu distingas kato de hundo
   - "[Esperanto] The program should find out how one animal differs from another."
 - - input
-  - Ĝi povas surgrimpi arbon
+  - ĝi povas surgrimpi arbon
 - - contains
-  - Ĉu la aserto ĝustas por la hundo?
+  - ĉu la aserto ĝustas por la hundo?
   - "[Esperanto] The program should clarify if the statement is correct for a dog."
 - [input, ne]
 
 - - contains
-  - La kato povas surgrimpi arbon
+  - la kato povas surgrimpi arbon
   - The program must generate the correct fact for the first animal.
 
 - - contains
-  - La hundo ne povas surgrimpi arbon
+  - la hundo ne povas surgrimpi arbon
   - "[Esperanto] The program must generate the correct fact for the second animal."
 
 - - matches
@@ -70,7 +70,7 @@
   - povas surgrimpi arbon?
   - "[Esperanto] After the first game, the starting question should be the question of fact."
 - [input, jes]
-- [contains, "Ĉu ĝi estas kato?", "[Esperanto] The program must assume that the animal is a cat."]
+- [contains, "ĉu ĝi estas kato?", "[Esperanto] The program must assume that the animal is a cat."]
 - - input
   - |
     ne
@@ -96,10 +96,10 @@
 #
 - [start, "-type {0}"]
 - - not contains
-  - Kiun beston vi plej ŝatas?
+  - kiun beston vi plej ŝatas?
   - "[Esperanto] If the tree of knowledge exists, then the program should not ask the user about his favorite animal."
 - - contains
-  - Bonvenon al la sperta sistemo de la besto!
+  - bonvenon al la sperta sistemo de la besto!
   - "[Esperanto] The program should immediately greet the user after starting."
 - - matches
   - (?si).*Ludi.*Listo.*Serĉi.*Kalkuli.*Eliri.*
@@ -118,17 +118,17 @@
 #
 - [input, "3"]
 - - contains
-  - Enigu la nomon de besto
+  - enigu la nomon de besto
   - "[Esperanto] The program should ask the user to enter the name of the animal"
 - [input, linko]
 - - contains
-  - Faktoj pri la linko
+  - faktoj pri la linko
   - "[Esperanto] The program must find the animal that is in the knowledge tree."
 - - contains
-  - Ĝi povas surgrimpi arbon
+  - ĝi povas surgrimpi arbon
   - "[Esperanto] The program did not print the first fact about the animal"
 - - contains
-  - Ĝi loĝas en la arbaro
+  - ĝi loĝas en la arbaro
   - "[Esperanto] The program did not print the second fact about the animal"
 
 #
