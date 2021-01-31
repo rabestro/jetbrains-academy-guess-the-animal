@@ -51,13 +51,13 @@ public final class TreeServices extends TextInterface {
 
     void delete() {
         if (knowledgeTree.getRoot().isLeaf()) {
-            println("delete.root");
+            println("tree.delete.root");
             return;
         }
-        println("delete.animal");
+        println("tree.delete.animal");
         final var animal = ask("animal");
         final var isOk = knowledgeTree.deleteAnimal(null, knowledgeTree.getRoot(), animal);
-        println(isOk ? "delete.successful" : "delete.fail", name(animal));
+        println(isOk ? "tree.delete.successful" : "tree.delete.fail", name(animal));
     }
 
     void print() {
