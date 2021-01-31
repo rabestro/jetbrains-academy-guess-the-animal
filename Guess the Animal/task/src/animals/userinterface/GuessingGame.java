@@ -62,6 +62,6 @@ public final class GuessingGame extends TextInterface implements Runnable {
     }
 
     private void printFact(final String fact, final String animal) {
-        println(" - " + capitalize(String.format(fact, applyRules("definite", animal))) + ".");
+        println(" - {0}.",capitalize(String.format(fact, applyRules("definite", animal))));
     }
 }

@@ -28,6 +28,13 @@ public class TextInterface extends LanguageRules {
         this.resourceBundle = bundle;
     }
 
+    private static String pickMessage(final String[] messages) {
+        return messages[random.nextInt(messages.length)];
+    }
+
+    public static String capitalize(final String data) {
+        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
+    }
 
     public void println() {
         System.out.println();
@@ -81,10 +88,6 @@ public class TextInterface extends LanguageRules {
         return pickMessage(MESSAGE_DELIMITER.split(resourceBundle.getString(key)));
     }
 
-    private static String pickMessage(final String[] messages) {
-        return messages[random.nextInt(messages.length)];
-    }
-
     public String readToLowerCase() {
         return scanner.nextLine().toLowerCase().trim();
     }
@@ -125,10 +128,6 @@ public class TextInterface extends LanguageRules {
 
         println(pickMessage(messages.toArray(String[]::new)));
         log.exiting(TextInterface.class.getName(), messageName, messages);
-    }
-
-    public static String capitalize(final String data) {
-        return data.substring(0, 1).toUpperCase() + data.substring(1).toLowerCase();
     }
 
 }

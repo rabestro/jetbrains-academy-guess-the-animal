@@ -19,16 +19,6 @@ public enum StorageService {
     private static final Logger log = Logger.getLogger(StorageService.class.getName());
     private static final String baseName;
 
-    private final ObjectMapper objectMapper;
-
-    StorageService(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
-
-    public static StorageService of(final String type) {
-        return StorageService.valueOf(type.toUpperCase());
-    }
-
     static {
         final Properties properties = new Properties();
         try {
@@ -38,6 +28,16 @@ public enum StorageService {
         }
         baseName = properties.getProperty("baseName", "animals");
         log.config(() -> "Storage file base name is " + baseName);
+    }
+
+    private final ObjectMapper objectMapper;
+
+    StorageService(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public static StorageService of(final String type) {
+        return StorageService.valueOf(type.toUpperCase());
     }
 
     private File getFile() {
