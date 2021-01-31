@@ -13,7 +13,7 @@ public class GuessAnimalTest extends StageTest<String> {
 
     @DynamicTest(data = "languages")
     CheckResult testLanguages(final String language) throws IOException {
-        final var fileName = "animal" + ("en".equals(language) ? "." : "_" + language + ".");
+        final var fileName = "animals" + ("en".equals(language) ? "." : "_" + language + ".");
 
         final var locale = Locale.getDefault();
         final var systemLanguage = System.getProperty("user.language");
