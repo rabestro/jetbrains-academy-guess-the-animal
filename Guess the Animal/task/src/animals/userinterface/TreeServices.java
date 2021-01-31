@@ -43,7 +43,7 @@ public final class TreeServices extends TextInterface {
     }
 
     void search() {
-        final var animal = ask("tree.search.animal");
+        final var animal = ask("animal");
         final var animalName = applyRules("animal", animal);
         final var facts = getAnimals().getOrDefault(animal, emptyList());
         println(facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts", animal);
@@ -62,19 +62,22 @@ public final class TreeServices extends TextInterface {
     }*/
 
     void print() {
-        printf("%n ┄");
         printNode(knowledgeTree.getRoot(), false, " ");
     }
 
-    private void printNode(TreeNode<String> node, boolean isRight, String prefix) {
+    private void printNode(final TreeNode<String> node, final boolean isRight, String prefix) {
         if (node.isLeaf()) {
-            printf("%s%c %s%n", prefix, isRight ? '├' : '└', node.getData());
+            printf("tree.print.printf", prefix, getLine(isRight), node.getData());
             return;
         }
-        printf("%s%c %s%n", prefix, isRight ? '├' : '└', applyRules("question", node.getData()));
-        prefix += isRight ? '│' : ' ';
+        printf("tree.print.printf", prefix, getLine(isRight), applyRules("question", node.getData()));
+        prefix += isRight ? resourceBundle.getString("tree.print.vertical") : " ";
         printNode(node.getRight(), true, prefix);
         printNode(node.getLeft(), false, prefix);
+    }
+
+    private String getLine(final boolean isBranch) {
+        return resourceBundle.getString(isBranch ? "tree.print.branch" : "tree.print.corner");
     }
 
     private Map<String, List<String>> getAnimals() {
