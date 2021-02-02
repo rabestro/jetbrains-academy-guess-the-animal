@@ -117,8 +117,8 @@
 # Check the facts about the animal
 #
 - [input, "3"]
-- - contains
-  - enigu la nomon de besto
+- - find
+  - enigu .* besto
   - "[Esperanto] The program should ask the user to enter the name of the animal"
 - [input, linko]
 - - contains

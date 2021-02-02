@@ -4,16 +4,44 @@ import animals.repository.KnowledgeTree;
 import animals.repository.TreeNode;
 
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.summarizingInt;
 
 public final class TreeServices extends TextInterface {
+    private static final UnaryOperator<String> toName = animal -> applyRules("animalName", animal);
+
     private final KnowledgeTree knowledgeTree;
     private final Map<String, List<String>> animals = new HashMap<>();
 
-    TreeServices(KnowledgeTree knowledgeTree) {
+    TreeServices(final KnowledgeTree knowledgeTree) {
         this.knowledgeTree = knowledgeTree;
+    }
+
+    void list() {
+        println("tree.list.animals");
+        getAnimals().entrySet().stream()
+                .sorted(Map.Entry.comparingByKey())
+                .forEach(entry -> printf("tree.list.printf", entry.getKey(), entry.getValue().size()));
+    }
+
+    void search() {
+        final var animal = ask("tree.search");
+        final var facts = getAnimals().getOrDefault(animal, emptyList());
+        final var feedback = facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts";
+        println(feedback, animal);
+        facts.forEach(fact -> printf("tree.search.printf", fact));
+    }
+
+    void delete() {
+        if (knowledgeTree.getRoot().isLeaf()) {
+            println("tree.delete.root");
+            return;
+        }
+        final var animal = ask("animal");
+        final var feedback = knowledgeTree.deleteAnimal(animal) ? "successful" : "fail";
+        println("tree.delete." + feedback, toName.apply(animal));
     }
 
     void statistics() {
@@ -32,36 +60,8 @@ public final class TreeServices extends TextInterface {
         return getAnimals().values().stream().collect(summarizingInt(List::size));
     }
 
-    void list() {
-        println("tree.list.animals");
-        getAnimals().entrySet().stream()
-                .sorted(Map.Entry.comparingByKey())
-                .forEach(entry -> printf("tree.list.printf", entry.getKey(), entry.getValue().size()));
-    }
-
-    void search() {
-        final var animal = ask("animal");
-        final var facts = getAnimals().getOrDefault(animal, emptyList());
-        println(facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts", name(animal));
-        facts.forEach(fact -> printf("tree.search.printf", fact));
-    }
-
-    void delete() {
-        if (knowledgeTree.getRoot().isLeaf()) {
-            println("tree.delete.root");
-            return;
-        }
-        final var animal = ask("animal");
-        final var isOk = knowledgeTree.deleteAnimal(null, knowledgeTree.getRoot(), animal);
-        println(isOk ? "tree.delete.successful" : "tree.delete.fail", name(animal));
-    }
-
     void print() {
         printNode(knowledgeTree.getRoot(), false, " ");
-    }
-
-    private String name(final String animal) {
-        return applyRules("animalName", animal);
     }
 
     private void printNode(final TreeNode<String> node, final boolean isRight, String prefix) {
@@ -87,7 +87,7 @@ public final class TreeServices extends TextInterface {
 
     private void collectAnimals(final TreeNode<String> node, final Deque<String> facts) {
         if (node.isLeaf()) {
-            animals.put(node.getData(), List.copyOf(facts));
+            animals.put(toName.apply(node.getData()), List.copyOf(facts));
             return;
         }
         final var statement = node.getData();
@@ -98,6 +98,5 @@ public final class TreeServices extends TextInterface {
         collectAnimals(node.getLeft(), facts);
         facts.removeLast();
     }
-
 
 }

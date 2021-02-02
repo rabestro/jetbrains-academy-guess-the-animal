@@ -18,6 +18,7 @@ public enum StorageService {
 
     private static final Logger log = Logger.getLogger(StorageService.class.getName());
 
+    private static final String CONFIG_FILE = "application.xml";
     private static final String DEFAULT_NAME = "animals";
     private static final String DEFAULT_TYPE = "yaml";
     private static final String baseName;
@@ -26,7 +27,7 @@ public enum StorageService {
     static {
         final Properties properties = new Properties();
         try {
-            properties.loadFromXML(new FileInputStream("application.xml"));
+            properties.loadFromXML(new FileInputStream(CONFIG_FILE));
         } catch (IOException e) {
             log.warning(e.getMessage());
         }
@@ -63,7 +64,7 @@ public enum StorageService {
         } catch (IOException error) {
             log.warning(error.getMessage());
         }
-        log.exiting(StorageService.class.getName(), "load");
+        log.exiting(StorageService.class.getName(), "load", !tree.isEmpty());
     }
 
     public void save(final KnowledgeTree tree) {
@@ -74,6 +75,6 @@ public enum StorageService {
         } catch (IOException error) {
             log.warning(error.getMessage());
         }
-        log.exiting(StorageService.class.getName(), "save", "Knowledge Base saved successfully.");
+        log.exiting(StorageService.class.getName(), "save");
     }
 }

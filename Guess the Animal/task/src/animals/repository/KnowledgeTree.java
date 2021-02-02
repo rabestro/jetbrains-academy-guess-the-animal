@@ -27,18 +27,6 @@ public class KnowledgeTree {
         current = direction ? current.getRight() : current.getLeft();
     }
 
-    public void addAnimal(final String animal, final String statement, final boolean isRight) {
-        log.entering(KnowledgeTree.class.getName(), "addAnimal");
-
-        final var newAnimal = new TreeNode<>(animal);
-        final var oldAnimal = new TreeNode<>(current.getData());
-        current.setData(statement);
-        current.setRight(isRight ? newAnimal : oldAnimal);
-        current.setLeft(isRight ? oldAnimal : newAnimal);
-
-        log.exiting(KnowledgeTree.class.getName(), "addAnimal");
-    }
-
     public TreeNode<String> getRoot() {
         return root;
     }
@@ -52,7 +40,28 @@ public class KnowledgeTree {
         return root == null;
     }
 
-    public boolean deleteAnimal(final TreeNode<String> parent, final TreeNode<String> child, final String animal) {
+    public void addAnimal(final String animal, final String statement, final boolean isRight) {
+        log.entering(KnowledgeTree.class.getName(), "addAnimal", new Object[]{animal, statement, isRight});
+
+        final var newAnimal = new TreeNode<>(animal);
+        final var oldAnimal = new TreeNode<>(current.getData());
+        current.setData(statement);
+        current.setRight(isRight ? newAnimal : oldAnimal);
+        current.setLeft(isRight ? oldAnimal : newAnimal);
+
+        log.exiting(KnowledgeTree.class.getName(), "addAnimal", animal);
+    }
+
+    public boolean deleteAnimal(final String animal) {
+        log.entering(KnowledgeTree.class.getName(), "deleteAnimal", animal);
+
+        final var isSuccessful = deleteAnimal(animal, root, null);
+
+        log.exiting(KnowledgeTree.class.getName(), "deleteAnimal", isSuccessful);
+        return isSuccessful;
+    }
+
+    private boolean deleteAnimal(final String animal, final TreeNode<String> child, final TreeNode<String> parent) {
         if (child.isLeaf() && animal.equals(child.getData())) {
             final var source = parent.getRight() == child ? parent.getLeft() : parent.getRight();
             parent.setData(source.getData());
@@ -61,6 +70,6 @@ public class KnowledgeTree {
             return true;
         }
         return !child.isLeaf() &&
-                (deleteAnimal(child, child.getRight(), animal) || deleteAnimal(child, child.getLeft(), animal));
+                (deleteAnimal(animal, child.getRight(), child) || deleteAnimal(animal, child.getLeft(), child));
     }
 }
