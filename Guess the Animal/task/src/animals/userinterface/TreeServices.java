@@ -24,9 +24,10 @@ public final class TreeServices extends TextInterface {
     }
 
     void search() {
-        final var animal = ask("animal");
+        final var animal = ask("tree.search");
         final var facts = getAnimals().getOrDefault(animal, emptyList());
-        println(facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts", name(animal));
+        final var feedback = facts.isEmpty() ? "tree.search.noFacts" : "tree.search.facts";
+        println(feedback, animal);
         facts.forEach(fact -> printf("tree.search.printf", fact));
     }
 
