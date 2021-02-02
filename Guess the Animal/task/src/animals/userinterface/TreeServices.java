@@ -4,11 +4,14 @@ import animals.repository.KnowledgeTree;
 import animals.repository.TreeNode;
 
 import java.util.*;
+import java.util.function.UnaryOperator;
 
 import static java.util.Collections.emptyList;
 import static java.util.stream.Collectors.summarizingInt;
 
 public final class TreeServices extends TextInterface {
+    private static final UnaryOperator<String> toName = animal -> applyRules("animalName", animal);
+
     private final KnowledgeTree knowledgeTree;
     private final Map<String, List<String>> animals = new HashMap<>();
 
@@ -38,7 +41,7 @@ public final class TreeServices extends TextInterface {
         }
         final var animal = ask("animal");
         final var feedback = knowledgeTree.deleteAnimal(animal) ? "successful" : "fail";
-        println("tree.delete." + feedback, name(animal));
+        println("tree.delete." + feedback, toName.apply(animal));
     }
 
     void statistics() {
@@ -84,7 +87,7 @@ public final class TreeServices extends TextInterface {
 
     private void collectAnimals(final TreeNode<String> node, final Deque<String> facts) {
         if (node.isLeaf()) {
-            animals.put(node.getData(), List.copyOf(facts));
+            animals.put(toName.apply(node.getData()), List.copyOf(facts));
             return;
         }
         final var statement = node.getData();
@@ -94,10 +97,6 @@ public final class TreeServices extends TextInterface {
         facts.add(applyRules("negative", statement));
         collectAnimals(node.getLeft(), facts);
         facts.removeLast();
-    }
-
-    private String name(final String animal) {
-        return applyRules("animalName", animal);
     }
 
 }
