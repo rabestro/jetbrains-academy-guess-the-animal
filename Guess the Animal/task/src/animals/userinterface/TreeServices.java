@@ -12,24 +12,8 @@ public final class TreeServices extends TextInterface {
     private final KnowledgeTree knowledgeTree;
     private final Map<String, List<String>> animals = new HashMap<>();
 
-    TreeServices(KnowledgeTree knowledgeTree) {
+    TreeServices(final KnowledgeTree knowledgeTree) {
         this.knowledgeTree = knowledgeTree;
-    }
-
-    void statistics() {
-        final var stats = getStatistics();
-        println("tree.stats.title");
-        println("tree.stats.root", knowledgeTree.getRoot().getData());
-        println("tree.stats.nodes", stats.getCount() * 2 - 1);
-        println("tree.stats.animals", stats.getCount());
-        println("tree.stats.statements", stats.getCount() - 1);
-        println("tree.stats.height", stats.getMax());
-        println("tree.stats.minimum", stats.getMin());
-        println("tree.stats.average", stats.getAverage());
-    }
-
-    private IntSummaryStatistics getStatistics() {
-        return getAnimals().values().stream().collect(summarizingInt(List::size));
     }
 
     void list() {
@@ -52,16 +36,28 @@ public final class TreeServices extends TextInterface {
             return;
         }
         final var animal = ask("animal");
-        final var isOk = knowledgeTree.deleteAnimal(null, knowledgeTree.getRoot(), animal);
-        println(isOk ? "tree.delete.successful" : "tree.delete.fail", name(animal));
+        final var feedback = knowledgeTree.deleteAnimal(animal) ? "successful" : "fail";
+        println("tree.delete." + feedback, name(animal));
+    }
+
+    void statistics() {
+        final var stats = getStatistics();
+        println("tree.stats.title");
+        println("tree.stats.root", knowledgeTree.getRoot().getData());
+        println("tree.stats.nodes", stats.getCount() * 2 - 1);
+        println("tree.stats.animals", stats.getCount());
+        println("tree.stats.statements", stats.getCount() - 1);
+        println("tree.stats.height", stats.getMax());
+        println("tree.stats.minimum", stats.getMin());
+        println("tree.stats.average", stats.getAverage());
+    }
+
+    private IntSummaryStatistics getStatistics() {
+        return getAnimals().values().stream().collect(summarizingInt(List::size));
     }
 
     void print() {
         printNode(knowledgeTree.getRoot(), false, " ");
-    }
-
-    private String name(final String animal) {
-        return applyRules("animalName", animal);
     }
 
     private void printNode(final TreeNode<String> node, final boolean isRight, String prefix) {
@@ -99,5 +95,8 @@ public final class TreeServices extends TextInterface {
         facts.removeLast();
     }
 
+    private String name(final String animal) {
+        return applyRules("animalName", animal);
+    }
 
 }
