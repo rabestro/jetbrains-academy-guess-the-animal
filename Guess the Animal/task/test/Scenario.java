@@ -36,10 +36,10 @@ public class Scenario {
                         output = action.length == 1
                                 ? main.start()
                                 : main.start(format(action[1], values).split(" "));
-                        output = output.trim();
+                        output = output.trim().toLowerCase();
                         continue;
                     case "input":
-                        output = main.execute(format(action[1], values)).trim();
+                        output = main.execute(format(action[1], values)).trim().toLowerCase();
                         continue;
                     case "finish":
                         if (main.isFinished()) continue;
@@ -54,10 +54,6 @@ public class Scenario {
                                 "matches", output::matches);
 
                         final var expected = format(action[1], values);
-                        final var test = validation.get(command);
-                        if (test == null) {
-                            return wrong("Unknown command " + command);
-                        }
                         if (validation.get(command).test(expected)) {
                             continue;
                         }
