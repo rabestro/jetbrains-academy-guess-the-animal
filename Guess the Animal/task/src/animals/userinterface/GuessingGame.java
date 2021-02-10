@@ -50,7 +50,7 @@ public final class GuessingGame extends TextInterface implements Runnable {
         printFact(fact1, animal);
         printFact(fact2, guessedAnimal);
         println("game.distinguish");
-        println(" - " + capitalize(applyRules("question", statement)));
+        println(" - {0}", capitalize(applyRules("question", statement)));
         println();
         print("animal.nice");
         println("animal.learnedMuch");
@@ -62,6 +62,6 @@ public final class GuessingGame extends TextInterface implements Runnable {
     }
 
     private void printFact(final String fact, final String animal) {
-        println(" - {0}.",capitalize(String.format(fact, applyRules("definite", animal))));
+        println(" - {0}.", capitalize(String.format(fact, applyRules("definite", animal))));
     }
 }
