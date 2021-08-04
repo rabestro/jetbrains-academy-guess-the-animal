@@ -1,0 +1,16 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Russian" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="animals.Main" />
+    <module name="Guess_the_Animal.Guess_the_Animal-task.main" />
+    <option name="VM_PARAMETERS" value="-Duser.language=ru" />
+    <extension name="coverage">
+      <pattern>
+        <option name="PATTERN" value="animals.*" />
+        <option name="ENABLED" value="true" />
+      </pattern>
+    </extension>
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
