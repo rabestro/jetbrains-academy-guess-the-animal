@@ -9,14 +9,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Logger;
+
+import static java.lang.System.Logger.Level.*;
 
 public enum StorageService {
     JSON(new JsonMapper()),
     YAML(new YAMLMapper()),
     XML(new XmlMapper());
 
-    private static final Logger log = Logger.getLogger(StorageService.class.getName());
+    private static final System.Logger LOGGER = System.getLogger("");
 
     private static final String CONFIG_FILE = "application.xml";
     private static final String DEFAULT_NAME = "animals";
@@ -29,11 +30,11 @@ public enum StorageService {
         try {
             properties.loadFromXML(new FileInputStream(CONFIG_FILE));
         } catch (IOException e) {
-            log.warning(e.getMessage());
+            LOGGER.log(WARNING, e::getMessage);
         }
         baseName = properties.getProperty("baseName", DEFAULT_NAME);
         defaultService = of(properties.getProperty("type", DEFAULT_TYPE));
-        log.config(() -> "Storage file base name is " + baseName);
+        LOGGER.log(DEBUG, "Storage base name is `{0}`", baseName);
     }
 
     private final ObjectMapper objectMapper;
@@ -58,23 +59,24 @@ public enum StorageService {
 
     public void load(final KnowledgeTree tree) {
         final var file = getFile();
-        log.entering(StorageService.class.getName(), "load", file.getAbsolutePath());
+        LOGGER.log(TRACE, file::getAbsolutePath);
+
         try {
             tree.setRoot(objectMapper.readValue(file, TreeNode.class));
         } catch (IOException error) {
-            log.warning(error.getMessage());
+            LOGGER.log(WARNING, error::getMessage);
         }
-        log.exiting(StorageService.class.getName(), "load", !tree.isEmpty());
+        LOGGER.log(TRACE, "is loaded: {0}", !tree.isEmpty());
     }
 
     public void save(final KnowledgeTree tree) {
         final var file = getFile();
-        log.entering(StorageService.class.getName(), "save", file.getAbsolutePath());
+        LOGGER.log(TRACE, file::getAbsolutePath);
         try {
             objectMapper.writerWithDefaultPrettyPrinter().writeValue(file, tree.getRoot());
         } catch (IOException error) {
-            log.warning(error.getMessage());
+            LOGGER.log(WARNING, error::getMessage);
         }
-        log.exiting(StorageService.class.getName(), "save");
+        LOGGER.log(TRACE, "saved");
     }
 }

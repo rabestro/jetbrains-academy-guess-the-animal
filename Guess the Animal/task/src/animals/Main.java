@@ -3,13 +3,13 @@ package animals;
 import animals.repository.StorageService;
 import animals.userinterface.Application;
 
-import java.util.logging.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 public final class Main {
-    private static final Logger log = Logger.getLogger(Main.class.getName());
+    private static final System.Logger LOGGER = System.getLogger("");
 
     public static void main(String[] args) {
-        log.entering(Main.class.getName(), "main", args);
+        LOGGER.log(TRACE, args);
 
         final var isTypeSpecified = args.length > 1 && args[0].equals("-type");
         final var storageService = isTypeSpecified
@@ -18,6 +18,6 @@ public final class Main {
 
         new Application(storageService).run();
 
-        log.exiting(Main.class.getName(), "main");
+        LOGGER.log(TRACE, "finished");
     }
 }

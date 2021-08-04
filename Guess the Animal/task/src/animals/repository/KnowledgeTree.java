@@ -1,9 +1,9 @@
 package animals.repository;
 
-import java.util.logging.Logger;
+import static java.lang.System.Logger.Level.TRACE;
 
 public class KnowledgeTree {
-    private static final Logger log = Logger.getLogger(KnowledgeTree.class.getName());
+    private static final System.Logger LOGGER = System.getLogger("");
     private TreeNode<String> root;
     private TreeNode<String> current;
 
@@ -41,7 +41,7 @@ public class KnowledgeTree {
     }
 
     public void addAnimal(final String animal, final String statement, final boolean isRight) {
-        log.entering(KnowledgeTree.class.getName(), "addAnimal", new Object[]{animal, statement, isRight});
+        LOGGER.log(TRACE, "entering {0}, {1}, {2}", animal, statement, isRight);
 
         final var newAnimal = new TreeNode<>(animal);
         final var oldAnimal = new TreeNode<>(current.getData());
@@ -49,15 +49,15 @@ public class KnowledgeTree {
         current.setRight(isRight ? newAnimal : oldAnimal);
         current.setLeft(isRight ? oldAnimal : newAnimal);
 
-        log.exiting(KnowledgeTree.class.getName(), "addAnimal", animal);
+        LOGGER.log(TRACE, "exiting {0}", animal);
     }
 
     public boolean deleteAnimal(final String animal) {
-        log.entering(KnowledgeTree.class.getName(), "deleteAnimal", animal);
+        LOGGER.log(TRACE, "entering, animal: {0}", animal);
 
         final var isSuccessful = deleteAnimal(animal, root, null);
 
-        log.exiting(KnowledgeTree.class.getName(), "deleteAnimal", isSuccessful);
+        LOGGER.log(TRACE, "exiting, is successful: {0}", isSuccessful);
         return isSuccessful;
     }
 

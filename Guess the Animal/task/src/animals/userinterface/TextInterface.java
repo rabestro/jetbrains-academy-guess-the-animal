@@ -6,13 +6,12 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import static java.util.Objects.isNull;
 
 public class TextInterface extends LanguageRules {
-    protected static final Logger log = Logger.getLogger(TextInterface.class.getName());
+    protected static final System.Logger LOGGER = System.getLogger("");
 
     private static final Pattern MESSAGE_DELIMITER = Pattern.compile("\\f");
     private static final Scanner scanner = new Scanner(System.in);
@@ -93,7 +92,7 @@ public class TextInterface extends LanguageRules {
     }
 
     public void printConditional(final String messageName) {
-        log.entering(TextInterface.class.getName(), "printConditional: " + messageName);
+        LOGGER.log(System.Logger.Level.TRACE, "printConditional: {0}", messageName);
         final var messages = new ArrayList<String>();
         final var time = LocalTime.now();
         final var date = LocalDate.now();
@@ -126,8 +125,7 @@ public class TextInterface extends LanguageRules {
             messages.addAll(splitMessage.apply(messageName));
         }
 
-        println(pickMessage(messages.toArray(String[]::new)));
-        log.exiting(TextInterface.class.getName(), messageName, messages);
+        LOGGER.log(System.Logger.Level.TRACE, "exiting printConditional: {0}, {1}", messageName, messages);
     }
 
 }

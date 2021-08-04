@@ -4,6 +4,8 @@ import animals.repository.KnowledgeTree;
 import animals.repository.StorageService;
 import animals.repository.TreeNode;
 
+import static java.lang.System.Logger.Level.TRACE;
+
 public final class Application extends TextInterface implements Runnable {
     private final KnowledgeTree knowledgeTree;
     private final StorageService storageService;
@@ -17,7 +19,7 @@ public final class Application extends TextInterface implements Runnable {
 
     @Override
     public void run() {
-        log.entering(Application.class.getName(), "run");
+        LOGGER.log(TRACE, "Application started");
 
         printConditional("greeting");
         storageService.load(knowledgeTree);
@@ -26,7 +28,7 @@ public final class Application extends TextInterface implements Runnable {
             println();
             println("animal.wantLearn");
             println("animal.askFavorite");
-            knowledgeTree.setRoot(new TreeNode(ask("animal")));
+            knowledgeTree.setRoot(new TreeNode<>(ask("animal")));
         }
         println("welcome");
 
@@ -42,7 +44,7 @@ public final class Application extends TextInterface implements Runnable {
 
         storageService.save(knowledgeTree);
         println("farewell");
-        log.exiting(Application.class.getName(), "run");
+        LOGGER.log(TRACE, "Application stopped");
     }
 
 }
