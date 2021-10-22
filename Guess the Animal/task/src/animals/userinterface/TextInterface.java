@@ -10,6 +10,7 @@ import java.util.regex.Pattern;
 
 import static java.util.Objects.isNull;
 
+@SuppressWarnings("squid:S106")
 public class TextInterface extends LanguageRules {
     protected static final System.Logger LOGGER = System.getLogger("");
 

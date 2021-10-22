@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+@SuppressWarnings("squid:S106")
 public class LocalMenu extends TextInterface implements Menu {
     private final Map<String, MenuEntry> menu = new LinkedHashMap<>();
     private final Map<Property, String> properties = new EnumMap<>(Property.class);

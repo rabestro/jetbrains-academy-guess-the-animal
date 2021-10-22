@@ -22,7 +22,7 @@ public enum StorageService {
     private static final String CONFIG_FILE = "application.xml";
     private static final String DEFAULT_NAME = "animals";
     private static final String DEFAULT_TYPE = "yaml";
-    private static final String baseName;
+    private static final String BASE_NAME;
     private static final StorageService defaultService;
 
     static {
@@ -32,9 +32,9 @@ public enum StorageService {
         } catch (IOException e) {
             LOGGER.log(WARNING, e::getMessage);
         }
-        baseName = properties.getProperty("baseName", DEFAULT_NAME);
+        BASE_NAME = properties.getProperty("baseName", DEFAULT_NAME);
         defaultService = of(properties.getProperty("type", DEFAULT_TYPE));
-        LOGGER.log(DEBUG, "Storage base name is `{0}`", baseName);
+        LOGGER.log(DEBUG, "Storage base name is `{0}`", BASE_NAME);
     }
 
     private final ObjectMapper objectMapper;
@@ -54,7 +54,7 @@ public enum StorageService {
     private File getFile() {
         final var language = System.getProperty("user.language", "en").toLowerCase();
         final var lnName = "en".equals(language) ? "" : "_" + language;
-        return new File(baseName + lnName + "." + this.name().toLowerCase());
+        return new File(BASE_NAME + lnName + "." + this.name().toLowerCase());
     }
 
     public void load(final KnowledgeTree tree) {
